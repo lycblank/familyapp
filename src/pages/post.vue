@@ -1,6 +1,6 @@
 <template>
   <f7-page class="post-page" navbar-fixed toolbar-fixed>
-    <f7-navbar :title="$t('post.post')" :back-link="$t('app.back')" sliding>
+  <f7-navbar :title="$t('post.post')" :back-link="$t('app.back')" sliding>
     </f7-navbar>
     <card :enableToolbar="false" :data="post"></card>
     <div class="comments">
@@ -111,7 +111,6 @@
 </style>
 
 <script>
-import axios from 'axios'
 import Card from '../components/card.vue'
 import moment from 'moment'
 import {getRemoteAvatar} from '../utils/appFunc'
@@ -121,26 +120,31 @@ import find from 'lodash/find'
 export default {
   data() {
     return {
-      post: {},
-      comments: []
+      post: {}
     }
   },
   computed: {
     ...mapState({
       timeline: state => state.timeline,
+      comments: state => state.comments,
     })
   },
   mounted() {
     let query = this.$route.query
-    this.post = find(this.timeline, p => p.id === parseInt(query.mid))
+    this.post = find(this.timeline, p => p.id === parseInt(query.tid))
     this.getComments()
   },
   methods: {
     getComments() {
-      let random = Math.floor(Math.random()*2)
-      if(!random) return []
-      axios.get('/comments.json').then(res => {
-        this.comments = res.data
+      this.$f7.showIndicator()
+      this.$store.dispatch('initComments', {
+        tid: parseInt(this.$route.query.tid),
+        successCallback: () => {
+          this.$f7.hideIndicator()
+        },
+        failedCallback: () => {
+          this.$f7.hideIndicator()
+        }
       })
     },
     formatTime(time) {

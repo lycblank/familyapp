@@ -45,7 +45,7 @@ import zhCN from './lang/zh_cn'
 
 let cache = new StoreCache('vuex')
 Vue.use(VueI18n)
-Vue.config.lang = cache.get('lang') || 'en'
+Vue.config.lang = cache.get('lang') || 'zh'
 Vue.locale('en', enUS)
 Vue.locale('zh', zhCN)
 

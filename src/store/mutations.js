@@ -9,6 +9,16 @@ export default {
   [types.INIT_USER_INFO] (state, { user }) {
     Vue.set(state, 'user', user)
   },
+  [types.INIT_COMMENTS] (state, { comments }) {
+    Vue.set(state, 'comments', comments)
+  },
+  [types.INSERT_TIMETIME] (state, {idx, timeline}) {
+    state.timeline.splice(idx, 0, timeline)
+  },
+  [types.INSERT_COMMENT] (state, {idx, comment}) {
+    state.comments.splice(idx, 0, comment)
+    console.log(state.comments)
+  },
   [types.UPDATE_LANG] (state, lang) {
     Vue.set(state, 'lang', lang)
     cache.set('lang', lang)

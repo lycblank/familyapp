@@ -29,10 +29,18 @@ export default {
     },
     sendComment() {
       this.$f7.showPreloader(this.$t('app.submitting'))
-      setTimeout(_ => {
-        this.$f7.hidePreloader()
-        this.$f7.closeModal('#commentPopup')
-      }, 1500)
+      this.$store.dispatch('commentTopic', {
+        text:this.text,
+        tid: parseInt(this.$route.query.tid),
+        successCallback: () => {
+          this.$f7.hidePreloader()
+          this.$f7.closeModal('#commentPopup')
+        },
+        failedCallback: () => {
+          this.$f7.hidePreloader()
+          this.$f7.closeModal('#commentPopup')
+        }
+      })
     }
   },
   components: {

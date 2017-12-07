@@ -8,16 +8,18 @@
     <!-- Main Views -->
     <f7-views>
       <f7-view id="main-view" navbar-through :dynamic-navbar="true" main>
-        <f7-navbar theme="white">
-          <f7-nav-left>
-          </f7-nav-left>
-          <f7-nav-center sliding>{{navbarTitle}}</f7-nav-center>
-          <f7-nav-right>
-            <f7-link open-popup="#publisherPopup" icon="iconfont icon-feedback3" icon-size="22" v-show="activedTab === 'home'"></f7-link>
-          </f7-nav-right>
-        </f7-navbar>
+ <f7-navbar theme="white">
+                <f7-nav-left>
+                </f7-nav-left>
+                <f7-nav-center sliding>{{navbarTitle}}</f7-nav-center>
+                <f7-nav-right>
+                <f7-link open-popup="#publisherPopup" icon="iconfont icon-feedback3" icon-size="22" v-show="activedTab === 'home'"></f7-link>
+                </f7-nav-right>
+            </f7-navbar>
+
         <f7-pages>
-          <f7-page toolbar-fixed navbar-fixed>
+          <f7-page toolbar-fixed navbar-fixed name="main">
+           
             <f7-toolbar tabbar labels>
               <f7-link icon="iconfont icon-ios7homeoutline" :text="$t('app.home')" tab-link="#home" active></f7-link>
               <f7-link icon="iconfont icon-ios7chatbubbleoutline" :text="$t('app.contacts')" tab-link="#contacts"></f7-link>
@@ -52,12 +54,31 @@ import ContactsView from './pages/contacts.vue'
 import SettingsView from './pages/settings.vue'
 import CommentPopup from './pages/comment.vue'
 import PublisherPopup from './pages/publisher.vue'
-
 export default {
   data() {
     return {
       activedTab: 'home'
     }
+  },
+  mounted(){
+    this.$nextTick(_ => {
+      this.$store.dispatch('autoLogin', {
+        successCallback: () => {
+          this.$f7.mainView.router.load({pageName: 'main'})
+          this.$store.dispatch('getTimeline', {
+            successCallback: () => {
+              console.log('success timeline')
+            },
+            failedCallback: () => {
+              this.$f7.mainView.router.loadPage('/login/')
+            }
+          })
+        },
+        failedCallback: () => {
+          this.$f7.mainView.router.loadPage('/login/')
+        }
+      })
+    })
   },
   computed: {
     navbarTitle() {

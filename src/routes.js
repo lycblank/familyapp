@@ -23,4 +23,12 @@ export default [
     path: '/post/',
     component: require('./pages/post.vue')
   },
+  {
+    path: '/register/',
+    component: require('./pages/register.vue')
+  },
+  {
+    path: '/login/',
+    component: require('./pages/login.vue')
+  }
 ]

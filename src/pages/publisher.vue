@@ -33,6 +33,7 @@ export default {
         this.$f7.hidePreloader()
         this.$f7.closeModal('#publisherPopup')
       }, 1500)
+      this.$store.dispatch('publishTopic', this.text)
     }
   },
   components: {

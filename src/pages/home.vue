@@ -19,16 +19,19 @@ export default {
   },
   mounted() {
     this.$nextTick(_ => {
-      this.$f7.showIndicator()
-      this.$store.dispatch('getTimeline', () => {
-        this.$f7.hideIndicator()
-      })
+      //this.$f7.showIndicator()
+      //this.$store.dispatch('getTimeline', ({url}) => {
+       // this.$f7.hideIndicator()
+        //if (url !== '') {
+          //this.$f7.mainView.router.loadPage(url)
+        //}
+      //})
     })
   },
   methods: {
     routeToPost(data) {
-      this.$f7.mainView.router.load({url: `/post/?mid=${data.id}`})
-    }
+      this.$f7.mainView.router.load({url: `/post/?tid=${data.id}`})
+    },
   },
   components: {
     Card
